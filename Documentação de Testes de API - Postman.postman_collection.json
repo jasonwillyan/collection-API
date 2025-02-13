@@ -1,0 +1,332 @@
+{
+	"info": {
+		"_postman_id": "766bbe36-c7cc-42ed-a1f3-023645a0f58d",
+		"name": "Documentação de Testes de API - Postman",
+		"description": "# Resultados\n\n<img src=\"https://content.pstmn.io/b1e689d6-299f-4ce0-8a1e-4c25247363d7/cmVzdWx0YWRvc190ZXN0ZXNfQVBJLnBuZw==\">",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21152863"
+	},
+	"item": [
+		{
+			"name": "Sucesso (200)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status 200 - GET /users\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.json;",
+							"    const responseData = pm.response.json();",
+							"    pm.expect(responseData).to.be.an('array');",
+							"",
+							"    pm.expect(responseData[0]).to.have.property('id');",
+							"    pm.expect(responseData[0]).to.have.property('name');",
+							"    pm.expect(responseData[0]).to.have.property('username');",
+							"    pm.expect(responseData[0]).to.have.property('email');",
+							"    pm.expect(responseData[0]).to.have.property('address');",
+							"    pm.expect(responseData[0]).to.have.property('phone');",
+							"    pm.expect(responseData[0]).to.have.property('website');",
+							"    pm.expect(responseData[0]).to.have.property('company');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/users",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "**GET /users - Sucesso (Status 200)**  \nVerifica se a resposta da requisição GET retorna status 200, com um array de usuários, e as propriedades `id`, `name`, `username`, `email`, `address`, `phone`, `website` e `company`."
+			},
+			"response": []
+		},
+		{
+			"name": "Sucesso (200)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status 200 - POST /users\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"    pm.response.to.be.json;",
+							"",
+							"    const responseData = pm.response.json();",
+							"    pm.expect(responseData).to.have.property('id');",
+							"    pm.expect(responseData).to.have.property('name', 'Leanne Graham'); ",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Leanne Graham\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/users",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "**POST /users - Sucesso (Status 200/201)**\n\n  \nVerifica se a requisição POST cria um usuário com sucesso, retornando status 200 ou 201, e contendo `id` e `name` igual a `Leanne Graham`."
+			},
+			"response": []
+		},
+		{
+			"name": "Erro servidor (500)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status 500 - POST /users erro no servidor\", function () {",
+							"    pm.response.to.have.status(500);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "null",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/users",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "**POST /users - Erro 500 (Servidor com Body Null)**\n\n  \nVerifica se o servidor retorna erro 500 ao enviar corpo vazio ou inválido na requisição POST."
+			},
+			"response": []
+		},
+		{
+			"name": "Erro (404)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status 404 - POST /users com campo obrigatório faltando\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"string_incorreta\",\r\n    \"name\": \"Leanne Graham\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/users",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "**POST /users - Erro 400 (ID Errado)**\n\n  \nVerifica se o servidor retorna erro 404 ao enviar `id` incorreto (tipo string)."
+			},
+			"response": []
+		},
+		{
+			"name": "Validar estrutura (200)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var schema = {",
+							"    \"type\": \"array\",",
+							"    \"items\": {",
+							"        \"type\": \"object\",",
+							"        \"properties\": {",
+							"            \"id\": { \"type\": \"integer\" },",
+							"            \"name\": { \"type\": \"string\" },",
+							"            \"username\": { \"type\": \"string\" },",
+							"            \"email\": { \"type\": \"string\", \"format\": \"email\" },",
+							"            \"address\": {",
+							"                \"type\": \"object\",",
+							"                \"properties\": {",
+							"                    \"street\": { \"type\": \"string\" },",
+							"                    \"suite\": { \"type\": \"string\" },",
+							"                    \"city\": { \"type\": \"string\" },",
+							"                    \"zipcode\": { \"type\": \"string\" },",
+							"                    \"geo\": {",
+							"                        \"type\": \"object\",",
+							"                        \"properties\": {",
+							"                            \"lat\": { \"type\": \"string\" },",
+							"                            \"lng\": { \"type\": \"string\" }",
+							"                        },",
+							"                        \"required\": [\"lat\", \"lng\"]",
+							"                    }",
+							"                },",
+							"                \"required\": [\"street\", \"suite\", \"city\", \"zipcode\", \"geo\"]",
+							"            },",
+							"            \"phone\": { \"type\": \"string\" },",
+							"            \"website\": { \"type\": \"string\" },",
+							"            \"company\": {",
+							"                \"type\": \"object\",",
+							"                \"properties\": {",
+							"                    \"name\": { \"type\": \"string\" },",
+							"                    \"catchPhrase\": { \"type\": \"string\" },",
+							"                    \"bs\": { \"type\": \"string\" }",
+							"                },",
+							"                \"required\": [\"name\", \"catchPhrase\", \"bs\"]",
+							"            }",
+							"        },",
+							"        \"required\": [\"id\", \"name\", \"username\", \"email\", \"address\", \"phone\", \"website\", \"company\"]",
+							"    }",
+							"};",
+							"",
+							"pm.test('Validando estrutura do body', function (){",
+							"    pm.response.to.have.jsonSchema(schema);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/users",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "**Validação de Estrutura - JSON Schema**\n\nVerifica se a resposta da requisição GET segue o JSON Schema definido, com a estrutura correta para usuários e seus detalhes."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "https://postman-rest-api-learner.glitch.me/"
+		}
+	]
+}
